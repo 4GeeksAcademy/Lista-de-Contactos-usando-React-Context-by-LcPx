@@ -1,39 +1,33 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import "../../styles/contactList.css";
+import { useNavigate } from "react-router-dom";
 
-export const Home = () => {
+
+const ContactList = () => {
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (actions && actions.loadContacts) {
-            actions.loadContacts();
-        } else {
-            console.error("Error: 'actions.loadContacts' is not available!");
-        }
-    }, [actions]);
+        // if (actions.loadContacts) {
+        actions.loadContacts();
+
+        // } else {
+        //     console.error("Erro: 'actions.loadContacts' não está definido!");
+        // }
+    }, []);
 
     return (
         <div className="container contact-list">
             <h1 className="text-center mt-5">Contact List</h1>
-            
-            <button className="add-contact-button" 
-                onClick={() => {
-                    actions.addContact({
-                        name: "New Contact",
-                        address: "Fake Street 123",
-                        phone: "123-456-789",
-                        email: "new@contact.com"
-                    });
-                }}>
-                    ➕ Add New Contact
+            <button className="add-contact-button" onClick={() => navigate("/addContact")}>
+                ➕ Add New Contact
             </button>
 
             <div className="list-group mt-4">
                 {store.contacts && store.contacts.length > 0 ? (
                     store.contacts.map((contact, index) => (
                         <div key={index} className="contact-card">
-                            <img src="https://i.pravatar.cc/80" alt="Avatar" />
+                            <img src={contact.avatar || "https://i.pravatar.cc/80"} alt="Avatar" />
                             <div className="contact-details">
                                 <h5>{contact.name}</h5>
                                 <p>📍 {contact.address}</p>
@@ -41,7 +35,7 @@ export const Home = () => {
                                 <p>📧 {contact.email}</p>
                             </div>
                             <div className="contact-actions">
-                                <button className="edit" onClick={() => actions.editContact(contact.id, contact)}>✏️</button>
+                                <button className="edit" onClick={() => navigate(`/editContact/${contact.id}`)}>✏️</button>
                                 <button className="delete" onClick={() => actions.deleteContact(contact.id)}>🗑️</button>
                             </div>
                         </div>
@@ -53,3 +47,5 @@ export const Home = () => {
         </div>
     );
 };
+
+export default ContactList;
