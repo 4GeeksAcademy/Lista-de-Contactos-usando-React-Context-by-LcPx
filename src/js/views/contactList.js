@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import "../../styles/contactList.css";
 
 
 const ContactList = () => {
@@ -27,7 +28,7 @@ const ContactList = () => {
                 {store.contacts && store.contacts.length > 0 ? (
                     store.contacts.map((contact, index) => (
                         <div key={index} className="contact-card">
-                            <img src={contact.avatar || "https://i.pravatar.cc/80"} alt="Avatar" />
+                            <img src="https://i.pravatar.cc/80" alt="Avatar" />
                             <div className="contact-details">
                                 <h5>{contact.name}</h5>
                                 <p>📍 {contact.address}</p>

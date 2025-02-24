@@ -32,7 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
                 .then((data) => {
                     console.log("📥 Contactos carregados:", data);
-                    setStore({ contacts: data.contacts || [] }); // 🔹 Garante que é um array
+                    setStore({ contacts: data.contacts || [] });
                 })
                 .catch((error) => console.error("Erro ao carregar contactos:", error));
             },
@@ -44,7 +44,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     body: JSON.stringify({ 
                         ...contact, 
                         agenda_slug: "LcPx",
-                        avatar: "https://i.pravatar.cc/80?u=" + contact.email // 🔹 Associa o avatar ao e-mail
+                        avatar: "https://i.pravatar.cc/80?u=" + contact.email
                     }),
                 })
                 .then(response => response.json())
@@ -79,7 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 // // Remove o contacto da UI imediatamente
                 // setStore({ contacts: store.contacts.filter(contact => contact.id !== id) });
             
-                // Faz o pedido DELETE na API
+                
                 fetch(`https://playground.4geeks.com/contact/agendas/LcPx/contacts/${id}`, {
                     method: "DELETE",
                 })
@@ -87,6 +87,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     if (!response.ok) {
                         throw new Error(`❌ Erro ao eliminar contacto ${id}`);
                     }
+                    getActions().loadContacts();
                     return response.json();
                 })
                 .then(() => {
